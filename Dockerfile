@@ -1,4 +1,4 @@
-FROM microsoft/windowsservercore:ltsc2016
+FROM node:10-alpine
 
 
 ENV NPM_CONFIG_LOGLEVEL info
