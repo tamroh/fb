@@ -1,15 +1,12 @@
-FROM node:10-alpine
+FROM mcr.microsoft.com/windows/servercore:1803 as installer
 
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';$ProgressPreference='silentlyContinue';"]
 
-ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 10.19.0
-ENV ARCH x64
+RUN Invoke-WebRequest -OutFile nodejs.zip -UseBasicParsing "https://nodejs.org/dist/v12.4.0/node-v12.4.0-win-x64.zip"; Expand-Archive nodejs.zip -DestinationPath C:\; Rename-Item "C:\\node-v12.4.0-win-x64" c:\nodejs
 
+FROM mcr.microsoft.com/windows/nanoserver:1803
 
-RUN powershell -Command "wget -Uri https://nodejs.org/dist/v%NODE_VERSION%/node-v%NODE_VERSION%-%ARCH%.msi -OutFile nodejs.msi -UseBasicParsing"
-
-
-RUN msiexec.exe /q /i nodejs.msi
-
-
-CMD [ "node" ]
+WORKDIR C:/nodejs
+COPY --from=installer C:/nodejs/ .
+RUN SETX PATH C:\nodejs
+RUN npm config set registry https://registry.npmjs.org/
