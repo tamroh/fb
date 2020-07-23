@@ -1,17 +1,15 @@
-FROM node:10-alpine
+FROM microsoft/windowsservercore:ltsc2016
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /home/node/app
+ENV NPM_CONFIG_LOGLEVEL info
+ENV NODE_VERSION 10.19.0
+ENV ARCH x64
 
-COPY package*.json ./
 
-USER node
+RUN powershell -Command "wget -Uri https://nodejs.org/dist/v%NODE_VERSION%/node-v%NODE_VERSION%-%ARCH%.msi -OutFile nodejs.msi -UseBasicParsing"
 
-RUN npm install
 
-COPY --chown=node:node . .
+RUN msiexec.exe /q /i nodejs.msi
 
-EXPOSE 8080
 
-CMD [ "node", "hello.js" ]
+CMD [ "node" ]
