@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-image-demo",
+  "version": "1.0.0",
+  "description": "nodejs image demo",
+  "author": "ibtissame",
+  "homepage": "https://github.com/tamroh/fb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tamroh/fb.git"
+  },
+  "license": "MIT",
+  "main": "hello.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "bootstrap",
+    "express"
+  ],
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
